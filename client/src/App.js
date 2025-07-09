@@ -236,7 +236,7 @@ function App() {
         setError('No microphone found. Please connect a microphone and try again.');
       } else if (error.name === 'NotSupportedError') {
         setError('Your browser doesn\'t support microphone access. Please use Chrome, Firefox, or Safari.');
-      } else if (location.protocol === 'http:' && location.hostname !== 'localhost') {
+      } else if (window.location.protocol === 'http:' && window.location.hostname !== 'localhost') {
         setError('HTTPS is required for microphone access. Please use HTTPS or localhost.');
       } else {
         setError(`Failed to access microphone: ${error.message}`);
