@@ -1,0 +1,177 @@
+/* Additional styles for App component */
+.room-info h2 {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.user-card h3 {
+  margin: 10px 0 5px 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.user-card p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.control-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.control-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Animation for user cards */
+.user-card {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive design improvements */
+@media (max-width: 480px) {
+  .room-info h2 {
+    font-size: 24px;
+  }
+  
+  .user-card {
+    padding: 15px;
+  }
+  
+  .user-card h3 {
+    font-size: 16px;
+  }
+  
+  .controls {
+    margin-top: 20px;
+  }
+  
+  .control-btn {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Loading animation */
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status indicators with animation */
+.status-indicator.online {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(78, 205, 196, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(78, 205, 196, 0);
+  }
+}
+
+/* Chat panel styles */
+.chat-panel {
+  background: #f7f7fa;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  min-width: 300px;
+  max-width: 400px;
+  margin-left: 16px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.chat-message {
+  margin-bottom: 12px;
+  text-align: left;
+}
+
+.chat-message.self {
+  text-align: right;
+}
+
+.chat-message > div {
+  margin-bottom: 2px;
+}
+
+.chat-message .username {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 14px;
+}
+
+.chat-message .message {
+  background: #e0e7ff;
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 16px;
+  margin-top: 2px;
+  font-size: 15px;
+}
+
+.chat-message .timestamp {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.chat-panel form {
+  display: flex;
+  border-top: 1px solid #eee;
+  padding: 8px;
+  background: #f7f7fa;
+  border-radius: 0 0 16px 16px;
+}
+
+.chat-panel input.input {
+  flex: 1;
+  margin-right: 8px;
+  border-radius: 20px;
+  font-size: 15px;
+}
+
+.chat-panel button.btn-success {
+  border-radius: 20px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 

@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: voice-chat-app
+    env: node
+    buildCommand: npm install && cd client && npm install && npm run build
+    startCommand: node server/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000 
