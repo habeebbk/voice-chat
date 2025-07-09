@@ -135,8 +135,12 @@ function App() {
     const peerConnection = new RTCPeerConnection({
       iceServers: [
         { urls: 'stun:stun.l.google.com:19302' },
-        { urls: 'stun:stun1.l.google.com:19302' }
-      ]
+        { urls: 'stun:stun1.l.google.com:19302' },
+        { urls: 'stun:stun2.l.google.com:19302' },
+        { urls: 'stun:stun3.l.google.com:19302' },
+        { urls: 'stun:stun4.l.google.com:19302' }
+      ],
+      iceCandidatePoolSize: 10
     });
 
     // Add local stream tracks
@@ -154,6 +158,16 @@ function App() {
           candidate: event.candidate
         });
       }
+    };
+
+    // Handle connection state changes
+    peerConnection.onconnectionstatechange = () => {
+      console.log(`Connection state with ${userId}:`, peerConnection.connectionState);
+    };
+
+    // Handle ICE connection state
+    peerConnection.oniceconnectionstatechange = () => {
+      console.log(`ICE connection state with ${userId}:`, peerConnection.iceConnectionState);
     };
 
     // Handle remote stream
@@ -184,9 +198,21 @@ function App() {
     }
 
     try {
-      // Get user media
+      // Check if we're on mobile
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        setSuccess('Mobile device detected. Please ensure you\'re using HTTPS for microphone access.');
+      }
+
+      // Get user media with better constraints for mobile
       const stream = await navigator.mediaDevices.getUserMedia({
-        audio: true,
+        audio: {
+          echoCancellation: true,
+          noiseSuppression: true,
+          autoGainControl: true,
+          sampleRate: 48000
+        },
         video: false
       });
       
@@ -202,8 +228,19 @@ function App() {
       setSuccess('Successfully joined the room!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {
-      setError('Failed to access microphone. Please check permissions.');
       console.error('Error accessing media devices:', error);
+      
+      if (error.name === 'NotAllowedError') {
+        setError('Microphone access denied. Please allow microphone permissions and refresh the page.');
+      } else if (error.name === 'NotFoundError') {
+        setError('No microphone found. Please connect a microphone and try again.');
+      } else if (error.name === 'NotSupportedError') {
+        setError('Your browser doesn\'t support microphone access. Please use Chrome, Firefox, or Safari.');
+      } else if (location.protocol === 'http:' && location.hostname !== 'localhost') {
+        setError('HTTPS is required for microphone access. Please use HTTPS or localhost.');
+      } else {
+        setError(`Failed to access microphone: ${error.message}`);
+      }
     }
   };
 
@@ -258,6 +295,9 @@ function App() {
           <div className="room-info">
             <h2>🎙️ Voice Chat</h2>
             <p>Join a room to start calling with others on your LAN/WiFi network</p>
+            <div style={{ marginTop: 16, padding: 12, background: '#f0f8ff', borderRadius: 8, fontSize: 14 }}>
+              <strong>📱 Mobile Users:</strong> Make sure you're using HTTPS for microphone access
+            </div>
           </div>
 
           {error && <div className="error">{error}</div>}
@@ -278,6 +318,9 @@ function App() {
                 Generate
               </button>
             </div>
+            <small style={{ color: '#666', marginTop: 4, display: 'block' }}>
+              Share this room ID with others to join the same call
+            </small>
           </div>
 
           <div className="form-group">
@@ -296,6 +339,16 @@ function App() {
             <Phone style={{ marginRight: '8px' }} />
             Join Room
           </button>
+
+          <div style={{ marginTop: 20, padding: 16, background: '#f9f9f9', borderRadius: 8, fontSize: 14 }}>
+            <h4 style={{ margin: '0 0 8px 0' }}>💡 Tips for Mobile Users:</h4>
+            <ul style={{ margin: 0, paddingLeft: 20 }}>
+              <li>Use Chrome or Safari on mobile</li>
+              <li>Allow microphone permissions when prompted</li>
+              <li>Make sure you're on HTTPS (Railway provides this)</li>
+              <li>Try refreshing if microphone doesn't work</li>
+            </ul>
+          </div>
         </div>
       </div>
     );

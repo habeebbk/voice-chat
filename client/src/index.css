@@ -243,6 +243,7 @@ code {
   color: #00b894;
 }
 
+/* Mobile-specific improvements */
 @media (max-width: 768px) {
   .container {
     padding: 10px;
@@ -250,6 +251,21 @@ code {
   
   .card {
     padding: 20px;
+  }
+  
+  .main-content {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+  
+  .chat-panel {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+    height: 300px !important;
+  }
+  
+  .user-list {
+    grid-template-columns: 1fr;
   }
   
   .controls {
@@ -262,7 +278,64 @@ code {
     font-size: 18px;
   }
   
-  .user-list {
-    grid-template-columns: 1fr;
+  .room-info h2 {
+    font-size: 24px;
+  }
+  
+  .user-card {
+    padding: 15px;
+  }
+  
+  .user-card h3 {
+    font-size: 16px;
+  }
+  
+  /* Touch-friendly buttons */
+  .btn {
+    padding: 14px 28px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+  
+  .input {
+    padding: 16px 20px;
+    font-size: 16px;
+    min-height: 44px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) and (orientation: landscape) {
+  .chat-panel {
+    height: 200px !important;
+  }
+  
+  .main-content {
+    flex-direction: row !important;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  .container {
+    padding: 5px;
+  }
+  
+  .card {
+    padding: 15px;
+  }
+  
+  .room-info h2 {
+    font-size: 20px;
+  }
+  
+  .controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .control-btn {
+    width: 45px;
+    height: 45px;
   }
 } 
